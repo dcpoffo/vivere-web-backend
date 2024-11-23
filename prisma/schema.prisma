@@ -1,0 +1,283 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id        Int    @id @default(autoincrement())
+  name      String @db.VarChar(40)
+  cpf       String @unique @db.VarChar(15)
+  crefito   String @unique @db.VarChar(20)
+  email     String @unique @db.VarChar(50)
+  password  String @db.VarChar(50)
+  profissao String @db.VarChar(30)
+  role      String @default("user") @db.VarChar(5)
+
+  @@map("usuarios")
+}
+
+model Paciente {
+  id             Int       @id @default(autoincrement())
+  nome           String    @db.VarChar(50)
+  cpf            String    @db.VarChar(14)
+  contato1       String?   @db.VarChar(30)
+  contato2       String?   @db.VarChar(30)
+  dataNascimento DateTime? @db.Date
+  endereco       String?   @db.VarChar(200)
+  email          String?   @db.VarChar(35)
+  situacao       String?   @db.VarChar(7)
+  profissao      String?   @db.VarChar(30)
+
+  atendimentos Atendimento[]
+
+  @@map("pacientes")
+}
+
+model Atendimento {
+  id              Int       @id @default(autoincrement())
+  idPaciente      Int
+  dataAtendimento DateTime? @db.Date
+  observacao      String?   @db.VarChar(17)
+  anotacoes       String?   @db.VarChar(10000)
+  atendimento     String    @default("Pilates") @db.VarChar(25)
+  paciente        Paciente  @relation(fields: [idPaciente], references: [id])
+
+  @@map("atendimentos")
+}
+
+// model avaliacao {
+//   CODAVALIACAO        Int      @id @default(autoincrement())
+//   CODALUNO            Int?
+//   INDICACAO           String?  @db.VarChar(30)
+//   ATIVIDADEFISICA     String?  @db.VarChar(3)
+//   QUALATIVIDADEFISICA String?  @db.VarChar(200)
+//   MEDICACAO           String?  @db.VarChar(200)
+//   TABAGISMO           String?  @db.VarChar(3)
+//   ETILISMO            String?  @db.VarChar(3)
+//   HIPERTENSAO         String?  @db.VarChar(3)
+//   DOENCAS             String?  @db.VarChar(200)
+//   DORES               String?  @db.VarChar(10000)
+//   POSICAODOR          String?  @db.VarChar(10000)
+//   OBJETIVOPRINCIPAL   String?  @db.VarChar(200)
+//   QUEIXAPRINCIPAL     String?  @db.VarChar(200)
+//   HDA                 String?  @db.VarChar(10000)
+//   HPP                 String?  @db.VarChar(10000)
+//   PESO                Decimal? @db.Decimal(5, 2)
+//   ALTURA              Decimal? @db.Decimal(5, 2)
+//   PA                  String?  @db.VarChar(8)
+//   PES                 String?  @db.VarChar(200)
+//   JOELHOS             String?  @db.VarChar(200)
+//   PELVE               String?  @db.VarChar(200)
+//   COLUNA              String?  @db.VarChar(200)
+//   OMBROS              String?  @db.VarChar(200)
+//   ESCAPULAS           String?  @db.VarChar(200)
+//   CABECA              String?  @db.VarChar(200)
+//   alunos              alunos?  @relation(fields: [CODALUNO], references: [CODALUNO], onDelete: Cascade, map: "avaliacao_ibfk_1")
+
+//   @@index([CODALUNO], map: "CODALUNO")
+// }
+
+// model exames {
+//   CODEXAME    Int         @id @default(autoincrement())
+//   CODALUNO    Int?
+//   EXAMES      String?     @db.VarChar(10000)
+//   OBSERVACOES String?     @db.VarChar(10000)
+//   alunos      alunos?     @relation(fields: [CODALUNO], references: [CODALUNO], onDelete: Cascade, map: "exames_ibfk_1")
+//   fotoexame   fotoexame[]
+
+//   @@index([CODALUNO], map: "CODALUNO")
+// }
+
+// model foto {
+//   CODFOTO  Int       @id @default(autoincrement())
+//   CODALUNO Int?
+//   DATAFOTO DateTime? @db.Date
+//   CAMINHO  String?   @db.VarChar(500)
+//   alunos   alunos?   @relation(fields: [CODALUNO], references: [CODALUNO], onDelete: Cascade, map: "foto_ibfk_1")
+
+//   @@index([CODALUNO], map: "CODALUNO")
+// }
+
+// model fotoexame {
+//   CODFOTOEXAME  Int       @id @default(autoincrement())
+//   CODEXAME      Int?
+//   DATAFOTOEXAME DateTime? @db.Date
+//   CAMINHO       String?   @db.VarChar(500)
+//   exames        exames?   @relation(fields: [CODEXAME], references: [CODEXAME], onDelete: Cascade, map: "fotoexame_ibfk_1")
+
+//   @@index([CODEXAME], map: "CODEXAME")
+// }
+
+// model mensalidade {
+//   CODMENSALIDADE   Int       @id @default(autoincrement())
+//   CODALUNO         Int
+//   PAGO             String?   @db.VarChar(3)
+//   DATAMENSALIDADE  DateTime? @db.Date
+//   MES              String?   @db.VarChar(9)
+//   ANO              String?   @db.VarChar(4)
+//   VALOR            Decimal?  @db.Decimal(5, 2)
+//   VISUALIZAR       String?   @db.VarChar(3)
+//   cpfUsuarioLogado String    @db.VarChar(14)
+//   alunos           alunos    @relation(fields: [CODALUNO], references: [CODALUNO], onDelete: Cascade, map: "mensalidade_ibfk_1")
+
+//   @@index([CODALUNO], map: "CODALUNO")
+// }
+
+// model osteopatia {
+//   codOsteopatia                        Int       @id @default(autoincrement())
+//   codAluno                             Int
+//   dataAvaliacao                        DateTime? @db.Date
+//   queixaPrincipal                      String?   @db.VarChar(200)
+//   historicoQueixa                      String?   @db.VarChar(1000)
+//   outrasQueixas                        String?   @db.VarChar(500)
+//   caracteristicaDor                    String?   @db.VarChar(100)
+//   horarioDor                           String?   @db.VarChar(100)
+//   oquePioraDor                         String?   @db.VarChar(100)
+//   oqueMelhoraDor                       String?   @db.VarChar(100)
+//   frequenciaDor                        String?   @db.VarChar(7)
+//   tratamentoDor                        String?   @db.VarChar(100)
+//   eva                                  Int?      @default(0)
+//   cirurgia                             String?   @db.VarChar(1000)
+//   halitose                             Int?      @db.TinyInt
+//   dorDeGarganta                        Int?      @db.TinyInt
+//   disfagia                             Int?      @db.TinyInt
+//   azia                                 Int?      @db.TinyInt
+//   tosseSeca                            Int?      @db.TinyInt
+//   esofagite                            Int?      @db.TinyInt
+//   perdaPeso                            Int?      @db.TinyInt
+//   obsEsofago                           String?   @db.VarChar(100)
+//   diabete                              Int?      @db.TinyInt
+//   gordura                              Int?      @db.TinyInt
+//   infeccoes                            Int?      @db.TinyInt
+//   obsPancreas                          String?   @db.VarChar(100)
+//   HIPERTENSAO                          Int?      @db.TinyInt
+//   CALCULOS                             Int?      @db.TinyInt
+//   EDEMA                                Int?      @db.TinyInt
+//   URINASANGUE                          Int?      @db.TinyInt
+//   POUCAURINA                           Int?      @db.TinyInt
+//   MUITAURINA                           Int?      @db.TinyInt
+//   PERDAURINA                           Int?      @db.TinyInt
+//   DORURINAR                            Int?      @db.TinyInt
+//   QUEIMACAOURINAR                      Int?      @db.TinyInt
+//   ALTERACAOCLORACAO                    Int?      @db.TinyInt
+//   INFECCAORIM                          Int?      @db.TinyInt
+//   OBSRIM                               String?   @db.VarChar(100)
+//   dorEstomago                          Int?      @db.TinyInt
+//   eructacao                            Int?      @db.TinyInt
+//   refluxo                              Int?      @db.TinyInt
+//   hernia                               Int?      @db.TinyInt
+//   alimentosAcidos                      Int?      @db.TinyInt
+//   estufamento                          Int?      @db.TinyInt
+//   nauseas                              Int?      @db.TinyInt
+//   gastrite                             Int?      @db.TinyInt
+//   obsEstomago                          String?   @db.VarChar(100)
+//   perdaPesoFigado                      Int?      @db.TinyInt
+//   bocaAmarga                           Int?      @db.TinyInt
+//   desconfortoAbnominal                 Int?      @db.TinyInt
+//   congestaoIntestinal                  Int?      @db.TinyInt
+//   alimentosGordurosos                  Int?      @db.TinyInt
+//   ressaca                              Int?      @db.TinyInt
+//   hepatite                             Int?      @db.TinyInt
+//   obsFigado                            String?   @db.VarChar(100)
+//   medicacao                            String?   @db.VarChar(500)
+//   alimentacao                          String?   @db.VarChar(500)
+//   emocional                            String?   @db.VarChar(500)
+//   sono                                 String?   @db.VarChar(500)
+//   atividadeFisica                      String?   @db.VarChar(500)
+//   trabalho                             String?   @db.VarChar(500)
+//   testesOrtopedicos                    String?   @db.VarChar(1000)
+//   testesOsteopaticos                   String?   @db.VarChar(1000)
+//   diagnosticoPorImagem                 String?   @db.VarChar(1000)
+//   diagnosticoTecidual                  String?   @db.VarChar(1000)
+//   diagnosticoOsteopatico               String?   @db.VarChar(1000)
+//   constipacao                          Int?      @db.TinyInt
+//   hemorroidas                          Int?      @db.TinyInt
+//   diarreia                             Int?      @db.TinyInt
+//   sensacaoEvacuacao                    Int?      @db.TinyInt
+//   flatulencia                          Int?      @db.TinyInt
+//   qualidadeFezes                       Int?      @db.TinyInt
+//   obsIntestino                         String?   @db.VarChar(100)
+//   estufamentoAbdominal                 Int?      @db.TinyInt
+//   intolerancia                         Int?      @db.TinyInt
+//   colicas                              Int?      @db.TinyInt
+//   calculosBiliares                     Int?      @db.TinyInt
+//   obsVesiculaBiliar                    String?   @db.VarChar(100)
+//   dificuldadeMiccao                    Int?      @db.TinyInt
+//   diminuicaoMiccao                     Int?      @db.TinyInt
+//   obsProstata                          String?   @db.VarChar(100)
+//   dorPreMenstrual                      Int?      @db.TinyInt
+//   dorDuranteMenstruacao                Int?      @db.TinyInt
+//   dorPosMenstrual                      Int?      @db.TinyInt
+//   menstruacaoIrregular                 Int?      @db.TinyInt
+//   dorRelacaoSexual                     Int?      @db.TinyInt
+//   dismenorreia                         Int?      @db.TinyInt
+//   amenorreia                           Int?      @db.TinyInt
+//   obsUtero                             String?   @db.VarChar(100)
+//   arritmia                             Int?      @db.TinyInt
+//   angina                               Int?      @db.TinyInt
+//   insuficienciaCardiaca                Int?      @db.TinyInt
+//   hipertensaoSistemaCardiorespiratorio Int?      @db.TinyInt
+//   sindromeVasoVagal                    Int?      @db.TinyInt
+//   desmaios                             Int?      @db.TinyInt
+//   cansaco                              Int?      @db.TinyInt
+//   dispneia                             Int?      @db.TinyInt
+//   sinusite                             Int?      @db.TinyInt
+//   rinite                               Int?      @db.TinyInt
+//   bronquite                            Int?      @db.TinyInt
+//   asma                                 Int?      @db.TinyInt
+//   pneumonia                            Int?      @db.TinyInt
+//   fumante                              Int?      @db.TinyInt
+//   maCirculacao                         Int?      @db.TinyInt
+//   varizes                              Int?      @db.TinyInt
+//   edemaMMSS                            Int?      @db.TinyInt
+//   edemaMMII                            Int?      @db.TinyInt
+//   obsSistemaCardiorespiratorio         String?   @db.VarChar(100)
+//   peDireito                            String?   @db.VarChar(20)
+//   peDireitoVaro                        Int?      @db.TinyInt
+//   peDireitoValgo                       Int?      @db.TinyInt
+//   peDireitoPlano                       Int?      @db.TinyInt
+//   peDireitoCavo                        Int?      @db.TinyInt
+//   peEsquerdo                           String?   @db.VarChar(20)
+//   peEsquerdoVaro                       Int?      @db.TinyInt
+//   peEsquerdoValgo                      Int?      @db.TinyInt
+//   peEsquerdoPlano                      Int?      @db.TinyInt
+//   peEsquerdoCavo                       Int?      @db.TinyInt
+//   TesteInibicaoPodal                   Int?      @db.TinyInt
+//   txtTesteInibicaoPodal                String?   @db.VarChar(50)
+//   classe1                              Int?      @db.TinyInt
+//   classe2                              Int?      @db.TinyInt
+//   aberta                               Int?      @db.TinyInt
+//   profunda                             Int?      @db.TinyInt
+//   classe3                              Int?      @db.TinyInt
+//   mordidaCruzadaD                      Int?      @db.TinyInt
+//   mordidaCruzadaE                      Int?      @db.TinyInt
+//   mordidaCruzadaB                      Int?      @db.TinyInt
+//   ausenciaDeDentes                     String?   @db.VarChar(50)
+//   TesteInibicaoATM                     Int?      @db.TinyInt
+//   txtTesteInibicaoATM                  String?   @db.VarChar(50)
+//   estrabismoConvergenteD               Int?      @db.TinyInt
+//   estrabismoConvergenteE               Int?      @db.TinyInt
+//   estrabismoDivergenteD                Int?      @db.TinyInt
+//   estrabismoDivergenteE                Int?      @db.TinyInt
+//   hipoconvergenciaD                    Int?      @db.TinyInt
+//   hipoconvergenciaE                    Int?      @db.TinyInt
+//   hipoconvergenciaBilateral            Int?      @db.TinyInt
+//   testeInibicaoOlhos                   Int?      @db.TinyInt
+//   txtTesteInibicaoOlhos                String?   @db.VarChar(50)
+//   cicatriz                             Int?      @db.TinyInt
+//   localCicatriz                        String?   @db.VarChar(500)
+//   testeInibicaoCicatriz                Int?      @db.TinyInt
+//   txtTesteInibicaoCicatriz             String?   @db.VarChar(50)
+//   lift                                 Int?      @db.TinyInt
+//   txtLift                              String?   @db.VarChar(50)
+//   localViscera                         String?   @db.VarChar(500)
+//   testeInibicaoLift                    Int?      @db.TinyInt
+//   txtTesteInibicaoLift                 String?   @db.VarChar(50)
+//   alunos                               alunos    @relation(fields: [codAluno], references: [CODALUNO], onDelete: Cascade, map: "osteopatia_ibfk_1")
+
+//   @@index([codAluno], map: "_idx")
+// }
