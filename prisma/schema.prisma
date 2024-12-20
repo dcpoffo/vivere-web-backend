@@ -33,6 +33,7 @@ model Paciente {
   profissao      String?   @db.VarChar(30)
 
   atendimentos Atendimento[]
+  mensalidades Mensalidade[]
 
   @@map("pacientes")
 }
@@ -47,6 +48,21 @@ model Atendimento {
   paciente        Paciente  @relation(fields: [idPaciente], references: [id])
 
   @@map("atendimentos")
+}
+
+model Mensalidade {
+  id               Int       @id @default(autoincrement())
+  idPaciente       Int
+  pago             String?   @db.VarChar(3)
+  dataMensalidade  DateTime? @db.Date
+  mes              String?   @db.VarChar(9)
+  ano              String?   @db.VarChar(4)
+  valor            Decimal?  @db.Decimal(5, 2)
+  visualizar       String?   @db.VarChar(3)
+  cpfUsuarioLogado String    @db.VarChar(14)
+  paciente         Paciente  @relation(fields: [idPaciente], references: [id])
+
+  @@map("mensalidades")
 }
 
 // model avaliacao {
@@ -110,21 +126,6 @@ model Atendimento {
 //   exames        exames?   @relation(fields: [CODEXAME], references: [CODEXAME], onDelete: Cascade, map: "fotoexame_ibfk_1")
 
 //   @@index([CODEXAME], map: "CODEXAME")
-// }
-
-// model mensalidade {
-//   CODMENSALIDADE   Int       @id @default(autoincrement())
-//   CODALUNO         Int
-//   PAGO             String?   @db.VarChar(3)
-//   DATAMENSALIDADE  DateTime? @db.Date
-//   MES              String?   @db.VarChar(9)
-//   ANO              String?   @db.VarChar(4)
-//   VALOR            Decimal?  @db.Decimal(5, 2)
-//   VISUALIZAR       String?   @db.VarChar(3)
-//   cpfUsuarioLogado String    @db.VarChar(14)
-//   alunos           alunos    @relation(fields: [CODALUNO], references: [CODALUNO], onDelete: Cascade, map: "mensalidade_ibfk_1")
-
-//   @@index([CODALUNO], map: "CODALUNO")
 // }
 
 // model osteopatia {

@@ -1,37 +1,30 @@
 import prismaClient from "../../prisma"
 
 class ListAtendimentoByPacienteService {
-
     async execute(idPaciente: string) {
-
         if (!idPaciente) {
-            throw new Error("Paciente sem identificador (Id) não dá")
+            throw new Error("Paciente sem identificador (Id) não dá");
         }
 
         const findPaciente = await prismaClient.paciente.findFirst({
             where: {
-                id: Number(idPaciente)
-            }
-        })
+                id: Number(idPaciente),
+            },
+        });
 
         if (!findPaciente) {
-            throw new Error("Paciente não encontrado!")
+            throw new Error("Paciente não encontrado!");
         }
 
         const atendimentos = await prismaClient.atendimento.findMany({
             where: {
-                idPaciente: Number(findPaciente.id)
+                idPaciente: Number(findPaciente.id),
             },
         });
 
-        if (atendimentos.length === 0) {
-            throw new Error("Nenhum atendimento encontrado para o(a) paciente " + findPaciente.nome)
-        }
-
-        return atendimentos;
-
+        // Retorna uma resposta mais descritiva em vez de lançar erro
+        return { atendimentos }
     }
-
 }
 
-export { ListAtendimentoByPacienteService }
+export { ListAtendimentoByPacienteService };

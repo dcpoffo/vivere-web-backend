@@ -3,9 +3,9 @@ import { FastifyInstance, FastifyPluginOptions, FastifyReply, FastifyRequest } f
 import { ListUsuariosController } from "./controllers/usuario/ListUsuariosController";
 import { FindUsuarioByEmailController } from "./controllers/usuario/FindUsuarioByEmailController";
 import { ListPacientesController } from "./controllers/paciente/ListPacientesController";
-import { request } from "http";
 import { ListAtendimentoByPacienteController } from "./controllers/atendimento/ListAtendimentoByPacienteController";
 import { ListPacienteByIdController } from "./controllers/paciente/ListPacienteByIdController";
+import { ListMensalidadeByPacienteController } from "./controllers/mensalidade/ListMensalidadeByPacienteController";
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
 
@@ -31,6 +31,11 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     //atendimentos
     fastify.get("/atendimento", async (request: FastifyRequest, reply: FastifyReply) => {
         return new ListAtendimentoByPacienteController().handle(request, reply);
+    })
+
+    //atendimentos
+    fastify.get("/mensalidade", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new ListMensalidadeByPacienteController().handle(request, reply);
     })
 
 }

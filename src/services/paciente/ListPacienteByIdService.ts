@@ -9,6 +9,7 @@ class ListPacienteByIdService {
             },
             include: {
                 atendimentos: true,
+                mensalidades: true,
             }
         });
 
