@@ -1,19 +1,19 @@
+
 import { FastifyReply, FastifyRequest } from "fastify";
+import { ListAtendimentoByIdService } from "../../services/atendimento/ListAtendimentoByIdService";
 
-import { ListMensalidadeByPacienteService } from "../../services/mensalidade/ListMensalidadeByPacienteService";
 
-
-class ListMensalidadeByPacienteController {
+class ListAtendimentoByIdController {
 
     async handle(request: FastifyRequest, reply: FastifyReply) {
 
-        const listMensalidadesByIdPacienteService = new ListMensalidadeByPacienteService
-        const { idPaciente } = request.query as { idPaciente: string };
+        const listAtendimentoByIdService = new ListAtendimentoByIdService();
+        const { id } = request.query as { id: string };
 
         try {
-            const mensalidades = await listMensalidadesByIdPacienteService.execute(idPaciente);
+            const atendimento = await listAtendimentoByIdService.execute(id);
 
-            reply.send(mensalidades)
+            reply.send(atendimento)
 
         } catch (error) {
             // Verifica o tipo do erro para acessar a mensagem corretamente
@@ -29,4 +29,4 @@ class ListMensalidadeByPacienteController {
 
 }
 
-export { ListMensalidadeByPacienteController }
+export { ListAtendimentoByIdController };

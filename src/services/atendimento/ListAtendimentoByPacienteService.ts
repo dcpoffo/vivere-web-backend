@@ -20,10 +20,22 @@ class ListAtendimentoByPacienteService {
             where: {
                 idPaciente: Number(findPaciente.id),
             },
+            orderBy: [
+                {
+                    dataAtendimento: 'desc'
+                },
+                {
+                    id: 'desc'
+                },
+            ]
         });
 
         // Retorna uma resposta mais descritiva em vez de lançar erro
-        return { atendimentos }
+        return {
+            paciente: findPaciente.nome,
+            atendimentos,
+            totalAtendimentos: atendimentos.length,
+        };
     }
 }
 

@@ -6,7 +6,7 @@ class ListPacienteService {
         const pacientes = await prismaClient.paciente.findMany(
             {
                 orderBy: {
-                    id: 'asc'
+                    nome: 'asc'
                 }
             }
         );

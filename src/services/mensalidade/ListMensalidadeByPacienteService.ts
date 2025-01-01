@@ -22,6 +22,14 @@ class ListMensalidadeByPacienteService {
             where: {
                 idPaciente: Number(findPaciente.id)
             },
+            orderBy: [
+                {
+                    dataMensalidade: 'desc'
+                },
+                {
+                    id: 'desc'
+                },
+            ]
         });
 
         if (mensalidades.length === 0) {

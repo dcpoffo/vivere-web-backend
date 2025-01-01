@@ -14,6 +14,7 @@
   "dependencies": {
     "@fastify/cors": "^8.5.0",
     "@prisma/client": "^5.10.2",
+    "bcrypt": "^5.1.1",
     "fastify": "^4.25.1",
     "node": "^20.10.0",
     "tsx": "^4.7.0"

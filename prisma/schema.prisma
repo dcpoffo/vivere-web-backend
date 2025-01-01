@@ -42,7 +42,7 @@ model Atendimento {
   id              Int       @id @default(autoincrement())
   idPaciente      Int
   dataAtendimento DateTime? @db.Date
-  observacao      String?   @db.VarChar(17)
+  observacao      String?   @default("COMPARECEU") @db.VarChar(17)
   anotacoes       String?   @db.VarChar(10000)
   atendimento     String    @default("Pilates") @db.VarChar(25)
   paciente        Paciente  @relation(fields: [idPaciente], references: [id])
