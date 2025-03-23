@@ -19,4 +19,4 @@ class ListMensalidadeByIdService {
     }
 }
 
-export { ListMensalidadeByIdService };
+export { ListMensalidadeByIdService }

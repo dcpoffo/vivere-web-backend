@@ -14,6 +14,10 @@ import { UpdateAtendimentoController } from "./controllers/atendimento/UpdateAte
 import { ListMensalidadeByIdController } from "./controllers/mensalidade/ListMensalidadeByIdController";
 import { UpdateMensalidadeController } from "./controllers/mensalidade/UpdateMensalidadeController";
 import { CreateMensalidadeController } from "./controllers/mensalidade/CreateMensalidadeController";
+import { ListAvaliacaoByIdController } from "./controllers/avaliacao/ListAvaliacaoByIdController";
+import { ListAvaliacaoByPacienteController } from "./controllers/avaliacao/ListAvaliacaoByPacienteController";
+import { UpdateAvaliacaoController } from "./controllers/avaliacao/UpdateAvaliacaoController";
+import { CreateAvaliacaoController } from "./controllers/avaliacao/CreateAvaliacaoController";
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
 
@@ -44,10 +48,12 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     })
 
     //atendimentos
+    //pelo Id do paciente
     fastify.get("/atendimento", async (request: FastifyRequest, reply: FastifyReply) => {
         return new ListAtendimentoByPacienteController().handle(request, reply);
     })
 
+    //pelo Id proprio
     fastify.get("/atendimento/id", async (request: FastifyRequest, reply: FastifyReply) => {
         return new ListAtendimentoByIdController().handle(request, reply);
     })
@@ -62,10 +68,12 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
 
 
     //mensalidades
+    //pelo Id do paciente
     fastify.get("/mensalidade", async (request: FastifyRequest, reply: FastifyReply) => {
         return new ListMensalidadeByPacienteController().handle(request, reply);
     })
 
+    //pelo Id proprio
     fastify.get("/mensalidade/id", async (request: FastifyRequest, reply: FastifyReply) => {
         return new ListMensalidadeByIdController().handle(request, reply);
     })
@@ -78,5 +86,23 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
         return new CreateMensalidadeController().handle(request, reply);
     })
 
+    //avaliacoes
+    //pelo Id do paciente
+    fastify.get("/avaliacao", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new ListAvaliacaoByPacienteController().handle(request, reply);
+    })
+
+    //pelo Id proprio
+    fastify.get("/avaliacao/id", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new ListAvaliacaoByIdController().handle(request, reply);
+    })
+
+    fastify.put("/avaliacao", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new UpdateAvaliacaoController().handle(request, reply);
+    })
+
+    fastify.post("/avaliacao", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new CreateAvaliacaoController().handle(request, reply);
+    })
 
 }

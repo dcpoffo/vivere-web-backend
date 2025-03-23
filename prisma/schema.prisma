@@ -34,6 +34,7 @@ model Paciente {
 
   atendimentos Atendimento[]
   mensalidades Mensalidade[]
+  avaliacoes   Avaliacao[]
 
   @@map("pacientes")
 }
@@ -53,49 +54,49 @@ model Atendimento {
 model Mensalidade {
   id               Int       @id @default(autoincrement())
   idPaciente       Int
-  pago             String?   @db.VarChar(3)
+  pago             String?   @default("NÃO") @db.VarChar(3)
   dataMensalidade  DateTime? @db.Date
   mes              String?   @db.VarChar(9)
   ano              String?   @db.VarChar(4)
   valor            Decimal?  @db.Decimal(5, 2)
-  visualizar       String?   @db.VarChar(3)
+  visualizar       String?   @default("NÃO") @db.VarChar(3)
   cpfUsuarioLogado String    @db.VarChar(14)
   paciente         Paciente  @relation(fields: [idPaciente], references: [id])
 
   @@map("mensalidades")
 }
 
-// model avaliacao {
-//   CODAVALIACAO        Int      @id @default(autoincrement())
-//   CODALUNO            Int?
-//   INDICACAO           String?  @db.VarChar(30)
-//   ATIVIDADEFISICA     String?  @db.VarChar(3)
-//   QUALATIVIDADEFISICA String?  @db.VarChar(200)
-//   MEDICACAO           String?  @db.VarChar(200)
-//   TABAGISMO           String?  @db.VarChar(3)
-//   ETILISMO            String?  @db.VarChar(3)
-//   HIPERTENSAO         String?  @db.VarChar(3)
-//   DOENCAS             String?  @db.VarChar(200)
-//   DORES               String?  @db.VarChar(10000)
-//   POSICAODOR          String?  @db.VarChar(10000)
-//   OBJETIVOPRINCIPAL   String?  @db.VarChar(200)
-//   QUEIXAPRINCIPAL     String?  @db.VarChar(200)
-//   HDA                 String?  @db.VarChar(10000)
-//   HPP                 String?  @db.VarChar(10000)
-//   PESO                Decimal? @db.Decimal(5, 2)
-//   ALTURA              Decimal? @db.Decimal(5, 2)
-//   PA                  String?  @db.VarChar(8)
-//   PES                 String?  @db.VarChar(200)
-//   JOELHOS             String?  @db.VarChar(200)
-//   PELVE               String?  @db.VarChar(200)
-//   COLUNA              String?  @db.VarChar(200)
-//   OMBROS              String?  @db.VarChar(200)
-//   ESCAPULAS           String?  @db.VarChar(200)
-//   CABECA              String?  @db.VarChar(200)
-//   alunos              alunos?  @relation(fields: [CODALUNO], references: [CODALUNO], onDelete: Cascade, map: "avaliacao_ibfk_1")
+model Avaliacao {
+  id                  Int      @id @default(autoincrement())
+  idPaciente          Int
+  indicacao           String?  @db.VarChar(30)
+  atividadeFisica     String?  @default("NÃO") @db.VarChar(3)
+  qualAtividadeFisica String?  @db.VarChar(200)
+  medicacao           String?  @db.VarChar(200)
+  tabagismo           String?  @default("NÃO") @db.VarChar(3)
+  etilismo            String?  @default("NÃO") @db.VarChar(3)
+  hipertensao         String?  @default("NÃO") @db.VarChar(3)
+  doencas             String?  @db.VarChar(200)
+  dores               String?  @db.VarChar(10000)
+  posicaoDor          String?  @db.VarChar(10000)
+  objetivoPrincipal   String?  @db.VarChar(200)
+  queixaPrincipal     String?  @db.VarChar(200)
+  hda                 String?  @db.VarChar(10000)
+  hpp                 String?  @db.VarChar(10000)
+  peso                String?  @db.VarChar(6) //100,50
+  altura              String?  @db.VarChar(4) //1,58
+  pa                  String?  @db.VarChar(7) //100x100
+  pes                 String?  @db.VarChar(200)
+  joelhos             String?  @db.VarChar(200)
+  pelve               String?  @db.VarChar(200)
+  coluna              String?  @db.VarChar(200)
+  ombros              String?  @db.VarChar(200)
+  escapulas           String?  @db.VarChar(200)
+  cabeca              String?  @db.VarChar(200)
+  paciente            Paciente @relation(fields: [idPaciente], references: [id])
 
-//   @@index([CODALUNO], map: "CODALUNO")
-// }
+  @@map("avaliacoes")
+}
 
 // model exames {
 //   CODEXAME    Int         @id @default(autoincrement())
