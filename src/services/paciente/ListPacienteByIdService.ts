@@ -11,6 +11,7 @@ class ListPacienteByIdService {
                 atendimentos: true,
                 mensalidades: true,
                 avaliacoes: true,
+                fotos: true,
             }
         });
 

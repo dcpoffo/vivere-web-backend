@@ -35,6 +35,7 @@ model Paciente {
   atendimentos Atendimento[]
   mensalidades Mensalidade[]
   avaliacoes   Avaliacao[]
+  fotos        Foto[]
 
   @@map("pacientes")
 }
@@ -96,6 +97,16 @@ model Avaliacao {
   paciente            Paciente @relation(fields: [idPaciente], references: [id])
 
   @@map("avaliacoes")
+}
+
+model Foto {
+  id         Int       @id @default(autoincrement())
+  idPaciente Int
+  dataFoto   DateTime? @db.Date
+  caminho    String?   @db.VarChar(500)
+  paciente   Paciente  @relation(fields: [idPaciente], references: [id])
+
+  @@map("fotos")
 }
 
 // model exames {

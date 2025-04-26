@@ -18,6 +18,10 @@ import { ListAvaliacaoByIdController } from "./controllers/avaliacao/ListAvaliac
 import { ListAvaliacaoByPacienteController } from "./controllers/avaliacao/ListAvaliacaoByPacienteController";
 import { UpdateAvaliacaoController } from "./controllers/avaliacao/UpdateAvaliacaoController";
 import { CreateAvaliacaoController } from "./controllers/avaliacao/CreateAvaliacaoController";
+import { ListFotoByPacienteController } from "./controllers/foto/ListFotoByPacienteController";
+import { UpdateFotoController } from "./controllers/foto/UpdateFotoController";
+import { ListFotoByIdController } from "./controllers/foto/ListFotoByIdController";
+import { CreateFotoController } from "./controllers/foto/CreateFotoController";
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
 
@@ -103,6 +107,25 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
 
     fastify.post("/avaliacao", async (request: FastifyRequest, reply: FastifyReply) => {
         return new CreateAvaliacaoController().handle(request, reply);
+    })
+
+    //fotos
+    //pelo Id do paciente
+    fastify.get("/foto", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new ListFotoByPacienteController().handle(request, reply);
+    })
+
+    //pelo Id proprio
+    fastify.get("/foto/id", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new ListFotoByIdController().handle(request, reply);
+    })
+
+    fastify.put("/foto", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new UpdateFotoController().handle(request, reply);
+    })
+
+    fastify.post("/foto", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new CreateFotoController().handle(request, reply);
     })
 
 }
