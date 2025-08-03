@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "mensalidades" ALTER COLUMN "pago" SET DATA TYPE VARCHAR(5),
+ALTER COLUMN "visualizar" SET DATA TYPE VARCHAR(5);

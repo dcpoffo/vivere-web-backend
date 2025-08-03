@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "mensalidades" ALTER COLUMN "pago" DROP NOT NULL,
+ALTER COLUMN "pago" SET DEFAULT 'NÃO',
+ALTER COLUMN "pago" SET DATA TYPE VARCHAR(3);

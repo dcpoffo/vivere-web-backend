@@ -21,21 +21,21 @@ model Usuario {
 }
 
 model Paciente {
-  id             Int       @id @default(autoincrement())
-  nome           String    @db.VarChar(50)
-  cpf            String    @db.VarChar(14)
-  contato1       String?   @db.VarChar(30)
-  contato2       String?   @db.VarChar(30)
-  dataNascimento DateTime? @db.Date
-  endereco       String?   @db.VarChar(200)
-  email          String?   @db.VarChar(35)
-  situacao       String?   @db.VarChar(7)
-  profissao      String?   @db.VarChar(30)
-
-  atendimentos Atendimento[]
-  mensalidades Mensalidade[]
-  avaliacoes   Avaliacao[]
-  fotos        Foto[]
+  id             Int           @id @default(autoincrement())
+  nome           String        @db.VarChar(50)
+  cpf            String        @db.VarChar(14)
+  contato1       String?       @db.VarChar(30)
+  contato2       String?       @db.VarChar(30)
+  dataNascimento DateTime?     @db.Date
+  endereco       String?       @db.VarChar(200)
+  email          String?       @db.VarChar(35)
+  situacao       String?       @db.VarChar(7)
+  profissao      String?       @db.VarChar(30)
+  atendimentos   Atendimento[]
+  avaliacoes     Avaliacao[]
+  fotos          Foto[]
+  mensalidades   Mensalidade[]
+  osteopatias    Osteopatia[]
 
   @@map("pacientes")
 }
@@ -56,12 +56,12 @@ model Mensalidade {
   id               Int       @id @default(autoincrement())
   idPaciente       Int
   pago             String?   @default("NÃO") @db.VarChar(3)
-  dataMensalidade  DateTime? @db.Date
   mes              String?   @db.VarChar(9)
   ano              String?   @db.VarChar(4)
-  valor            Decimal?  @db.Decimal(5, 2)
+  valor            Decimal?  @db.Decimal(6, 2)
   visualizar       String?   @default("NÃO") @db.VarChar(3)
   cpfUsuarioLogado String    @db.VarChar(14)
+  dataMensalidade  DateTime? @db.Date
   paciente         Paciente  @relation(fields: [idPaciente], references: [id])
 
   @@map("mensalidades")
@@ -70,30 +70,30 @@ model Mensalidade {
 model Avaliacao {
   id                  Int      @id @default(autoincrement())
   idPaciente          Int
-  indicacao           String?  @db.VarChar(30)
   atividadeFisica     String?  @default("NÃO") @db.VarChar(3)
-  qualAtividadeFisica String?  @db.VarChar(200)
-  medicacao           String?  @db.VarChar(200)
-  tabagismo           String?  @default("NÃO") @db.VarChar(3)
-  etilismo            String?  @default("NÃO") @db.VarChar(3)
-  hipertensao         String?  @default("NÃO") @db.VarChar(3)
   doencas             String?  @db.VarChar(200)
   dores               String?  @db.VarChar(10000)
-  posicaoDor          String?  @db.VarChar(10000)
+  etilismo            String?  @default("NÃO") @db.VarChar(3)
+  hipertensao         String?  @default("NÃO") @db.VarChar(3)
+  indicacao           String?  @db.VarChar(30)
+  medicacao           String?  @db.VarChar(200)
   objetivoPrincipal   String?  @db.VarChar(200)
-  queixaPrincipal     String?  @db.VarChar(200)
+  posicaoDor          String?  @db.VarChar(10000)
+  qualAtividadeFisica String?  @db.VarChar(200)
+  tabagismo           String?  @default("NÃO") @db.VarChar(3)
+  altura              String?  @db.VarChar(4)
+  cabeca              String?  @db.VarChar(200)
+  coluna              String?  @db.VarChar(200)
+  escapulas           String?  @db.VarChar(200)
   hda                 String?  @db.VarChar(10000)
   hpp                 String?  @db.VarChar(10000)
-  peso                String?  @db.VarChar(6) //100,50
-  altura              String?  @db.VarChar(4) //1,58
-  pa                  String?  @db.VarChar(7) //100x100
-  pes                 String?  @db.VarChar(200)
   joelhos             String?  @db.VarChar(200)
-  pelve               String?  @db.VarChar(200)
-  coluna              String?  @db.VarChar(200)
   ombros              String?  @db.VarChar(200)
-  escapulas           String?  @db.VarChar(200)
-  cabeca              String?  @db.VarChar(200)
+  pa                  String?  @db.VarChar(7)
+  pelve               String?  @db.VarChar(200)
+  pes                 String?  @db.VarChar(200)
+  peso                String?  @db.VarChar(6)
+  queixaPrincipal     String?  @db.VarChar(200)
   paciente            Paciente @relation(fields: [idPaciente], references: [id])
 
   @@map("avaliacoes")
@@ -109,188 +109,157 @@ model Foto {
   @@map("fotos")
 }
 
-// model exames {
-//   CODEXAME    Int         @id @default(autoincrement())
-//   CODALUNO    Int?
-//   EXAMES      String?     @db.VarChar(10000)
-//   OBSERVACOES String?     @db.VarChar(10000)
-//   alunos      alunos?     @relation(fields: [CODALUNO], references: [CODALUNO], onDelete: Cascade, map: "exames_ibfk_1")
-//   fotoexame   fotoexame[]
+model Osteopatia {
+  id                                   Int       @id @default(autoincrement())
+  idPaciente                           Int
+  dataAvaliacao                        DateTime? @db.Date
+  queixaPrincipal                      String?   @db.VarChar(200)
+  historicoQueixa                      String?   @db.VarChar(1000)
+  outrasQueixas                        String?   @db.VarChar(500)
+  caracteristicaDor                    String?   @db.VarChar(100)
+  horarioDor                           String?   @db.VarChar(100)
+  oquePioraDor                         String?   @db.VarChar(100)
+  oqueMelhoraDor                       String?   @db.VarChar(100)
+  frequenciaDor                        String?   @db.VarChar(7)
+  tratamentoDor                        String?   @db.VarChar(100)
+  eva                                  Int?      @default(0)
+  cirurgia                             String?   @db.VarChar(1000)
+  halitose                             Boolean   @default(false)
+  dorDeGarganta                        Boolean   @default(false)
+  disfagia                             Boolean   @default(false)
+  obsEsofago                           String?   @db.VarChar(100)
+  obsPancreas                          String?   @db.VarChar(100)
+  obsEstomago                          String?   @db.VarChar(100)
+  obsFigado                            String?   @db.VarChar(100)
+  medicacao                            String?   @db.VarChar(500)
+  alimentacao                          String?   @db.VarChar(500)
+  emocional                            String?   @db.VarChar(500)
+  sono                                 String?   @db.VarChar(500)
+  atividadeFisica                      String?   @db.VarChar(500)
+  trabalho                             String?   @db.VarChar(500)
+  testesOrtopedicos                    String?   @db.VarChar(1000)
+  testesOsteopaticos                   String?   @db.VarChar(1000)
+  diagnosticoPorImagem                 String?   @db.VarChar(1000)
+  diagnosticoTecidual                  String?   @db.VarChar(1000)
+  diagnosticoOsteopatico               String?   @db.VarChar(1000)
+  constipacao                          Boolean   @default(false)
+  hemorroidas                          Boolean   @default(false)
+  diarreia                             Boolean   @default(false)
+  sensacaoEvacuacao                    Boolean   @default(false)
+  flatulencia                          Boolean   @default(false)
+  qualidadeFezes                       Boolean   @default(false)
+  obsIntestino                         String?   @db.VarChar(100)
+  estufamentoAbdominal                 Boolean   @default(false)
+  intolerancia                         Boolean   @default(false)
+  colicas                              Boolean   @default(false)
+  calculosBiliares                     Boolean   @default(false)
+  obsVesiculaBiliar                    String?   @db.VarChar(100)
+  dificuldadeMiccao                    Boolean   @default(false)
+  diminuicaoMiccao                     Boolean   @default(false)
+  obsProstata                          String?   @db.VarChar(100)
+  dorPreMenstrual                      Boolean   @default(false)
+  dorDuranteMenstruacao                Boolean   @default(false)
+  dorPosMenstrual                      Boolean   @default(false)
+  menstruacaoIrregular                 Boolean   @default(false)
+  dorRelacaoSexual                     Boolean   @default(false)
+  dismenorreia                         Boolean   @default(false)
+  amenorreia                           Boolean   @default(false)
+  obsUtero                             String?   @db.VarChar(100)
+  arritmia                             Boolean   @default(false)
+  angina                               Boolean   @default(false)
+  insuficienciaCardiaca                Boolean   @default(false)
+  hipertensaoSistemaCardiorespiratorio Boolean   @default(false)
+  sindromeVasoVagal                    Boolean   @default(false)
+  desmaios                             Boolean   @default(false)
+  cansaco                              Boolean   @default(false)
+  dispneia                             Boolean   @default(false)
+  sinusite                             Boolean   @default(false)
+  rinite                               Boolean   @default(false)
+  bronquite                            Boolean   @default(false)
+  asma                                 Boolean   @default(false)
+  pneumonia                            Boolean   @default(false)
+  fumante                              Boolean   @default(false)
+  maCirculacao                         Boolean   @default(false)
+  varizes                              Boolean   @default(false)
+  edemaMMSS                            Boolean   @default(false)
+  edemaMMII                            Boolean   @default(false)
+  obsSistemaCardiorespiratorio         String?   @db.VarChar(100)
+  peDireito                            String?   @db.VarChar(20)
+  peDireitoVaro                        Boolean   @default(false)
+  peDireitoValgo                       Boolean   @default(false)
+  peDireitoPlano                       Boolean   @default(false)
+  peDireitoCavo                        Boolean   @default(false)
+  peEsquerdo                           String?   @db.VarChar(20)
+  peEsquerdoVaro                       Boolean   @default(false)
+  peEsquerdoValgo                      Boolean   @default(false)
+  peEsquerdoPlano                      Boolean   @default(false)
+  peEsquerdoCavo                       Boolean   @default(false)
+  txtTesteInibicaoPodal                String?   @db.VarChar(50)
+  classe1                              Boolean   @default(false)
+  classe2                              Boolean   @default(false)
+  aberta                               Boolean   @default(false)
+  profunda                             Boolean   @default(false)
+  classe3                              Boolean   @default(false)
+  mordidaCruzadaD                      Boolean   @default(false)
+  mordidaCruzadaE                      Boolean   @default(false)
+  mordidaCruzadaB                      Boolean   @default(false)
+  ausenciaDeDentes                     String?   @db.VarChar(50)
+  txtTesteInibicaoATM                  String?   @db.VarChar(50)
+  estrabismoConvergenteD               Boolean   @default(false)
+  estrabismoConvergenteE               Boolean   @default(false)
+  estrabismoDivergenteD                Boolean   @default(false)
+  estrabismoDivergenteE                Boolean   @default(false)
+  hipoconvergenciaD                    Boolean   @default(false)
+  hipoconvergenciaE                    Boolean   @default(false)
+  hipoconvergenciaBilateral            Boolean   @default(false)
+  testeInibicaoOlhos                   Boolean   @default(false)
+  txtTesteInibicaoOlhos                String?   @db.VarChar(50)
+  cicatriz                             Boolean   @default(false)
+  localCicatriz                        String?   @db.VarChar(500)
+  testeInibicaoCicatriz                Boolean   @default(false)
+  txtTesteInibicaoCicatriz             String?   @db.VarChar(50)
+  lift                                 Boolean   @default(false)
+  txtLift                              String?   @db.VarChar(50)
+  localViscera                         String?   @db.VarChar(500)
+  testeInibicaoLift                    Boolean   @default(false)
+  txtTesteInibicaoLift                 String?   @db.VarChar(50)
+  obsRim                               String?   @db.VarChar(100)
+  testeInibicaoATM                     Boolean   @default(false)
+  testeInibicaoPodal                   Boolean   @default(false)
+  azia                                 Boolean?  @default(false)
+  tosseSeca                            Boolean?  @default(false)
+  esofagite                            Boolean?  @default(false)
+  perdaPeso                            Boolean?  @default(false)
+  diabete                              Boolean?  @default(false)
+  gordura                              Boolean?  @default(false)
+  infeccoes                            Boolean?  @default(false)
+  hipertensao                          Boolean?  @default(false)
+  calculos                             Boolean?  @default(false)
+  edema                                Boolean?  @default(false)
+  urinaSangue                          Boolean?  @default(false)
+  poucaUrina                           Boolean?  @default(false)
+  muitaUrina                           Boolean?  @default(false)
+  perdaUrina                           Boolean?  @default(false)
+  dorUrinar                            Boolean?  @default(false)
+  queimacaoUrinar                      Boolean?  @default(false)
+  alteracaoCloracao                    Boolean?  @default(false)
+  infeccaoRim                          Boolean?  @default(false)
+  dorEstomago                          Boolean?  @default(false)
+  eructacao                            Boolean?  @default(false)
+  refluxo                              Boolean?  @default(false)
+  hernia                               Boolean?  @default(false)
+  alimentosAcidos                      Boolean?  @default(false)
+  estufamento                          Boolean?  @default(false)
+  nauseas                              Boolean?  @default(false)
+  gastrite                             Boolean?  @default(false)
+  perdaPesoFigado                      Boolean?  @default(false)
+  bocaAmarga                           Boolean?  @default(false)
+  desconfortoAbnominal                 Boolean?  @default(false)
+  congestaoIntestinal                  Boolean?  @default(false)
+  alimentosGordurosos                  Boolean?  @default(false)
+  ressaca                              Boolean?  @default(false)
+  hepatite                             Boolean?  @default(false)
+  paciente                             Paciente  @relation(fields: [idPaciente], references: [id])
 
-//   @@index([CODALUNO], map: "CODALUNO")
-// }
-
-// model foto {
-//   CODFOTO  Int       @id @default(autoincrement())
-//   CODALUNO Int?
-//   DATAFOTO DateTime? @db.Date
-//   CAMINHO  String?   @db.VarChar(500)
-//   alunos   alunos?   @relation(fields: [CODALUNO], references: [CODALUNO], onDelete: Cascade, map: "foto_ibfk_1")
-
-//   @@index([CODALUNO], map: "CODALUNO")
-// }
-
-// model fotoexame {
-//   CODFOTOEXAME  Int       @id @default(autoincrement())
-//   CODEXAME      Int?
-//   DATAFOTOEXAME DateTime? @db.Date
-//   CAMINHO       String?   @db.VarChar(500)
-//   exames        exames?   @relation(fields: [CODEXAME], references: [CODEXAME], onDelete: Cascade, map: "fotoexame_ibfk_1")
-
-//   @@index([CODEXAME], map: "CODEXAME")
-// }
-
-// model osteopatia {
-//   codOsteopatia                        Int       @id @default(autoincrement())
-//   codAluno                             Int
-//   dataAvaliacao                        DateTime? @db.Date
-//   queixaPrincipal                      String?   @db.VarChar(200)
-//   historicoQueixa                      String?   @db.VarChar(1000)
-//   outrasQueixas                        String?   @db.VarChar(500)
-//   caracteristicaDor                    String?   @db.VarChar(100)
-//   horarioDor                           String?   @db.VarChar(100)
-//   oquePioraDor                         String?   @db.VarChar(100)
-//   oqueMelhoraDor                       String?   @db.VarChar(100)
-//   frequenciaDor                        String?   @db.VarChar(7)
-//   tratamentoDor                        String?   @db.VarChar(100)
-//   eva                                  Int?      @default(0)
-//   cirurgia                             String?   @db.VarChar(1000)
-//   halitose                             Int?      @db.TinyInt
-//   dorDeGarganta                        Int?      @db.TinyInt
-//   disfagia                             Int?      @db.TinyInt
-//   azia                                 Int?      @db.TinyInt
-//   tosseSeca                            Int?      @db.TinyInt
-//   esofagite                            Int?      @db.TinyInt
-//   perdaPeso                            Int?      @db.TinyInt
-//   obsEsofago                           String?   @db.VarChar(100)
-//   diabete                              Int?      @db.TinyInt
-//   gordura                              Int?      @db.TinyInt
-//   infeccoes                            Int?      @db.TinyInt
-//   obsPancreas                          String?   @db.VarChar(100)
-//   HIPERTENSAO                          Int?      @db.TinyInt
-//   CALCULOS                             Int?      @db.TinyInt
-//   EDEMA                                Int?      @db.TinyInt
-//   URINASANGUE                          Int?      @db.TinyInt
-//   POUCAURINA                           Int?      @db.TinyInt
-//   MUITAURINA                           Int?      @db.TinyInt
-//   PERDAURINA                           Int?      @db.TinyInt
-//   DORURINAR                            Int?      @db.TinyInt
-//   QUEIMACAOURINAR                      Int?      @db.TinyInt
-//   ALTERACAOCLORACAO                    Int?      @db.TinyInt
-//   INFECCAORIM                          Int?      @db.TinyInt
-//   OBSRIM                               String?   @db.VarChar(100)
-//   dorEstomago                          Int?      @db.TinyInt
-//   eructacao                            Int?      @db.TinyInt
-//   refluxo                              Int?      @db.TinyInt
-//   hernia                               Int?      @db.TinyInt
-//   alimentosAcidos                      Int?      @db.TinyInt
-//   estufamento                          Int?      @db.TinyInt
-//   nauseas                              Int?      @db.TinyInt
-//   gastrite                             Int?      @db.TinyInt
-//   obsEstomago                          String?   @db.VarChar(100)
-//   perdaPesoFigado                      Int?      @db.TinyInt
-//   bocaAmarga                           Int?      @db.TinyInt
-//   desconfortoAbnominal                 Int?      @db.TinyInt
-//   congestaoIntestinal                  Int?      @db.TinyInt
-//   alimentosGordurosos                  Int?      @db.TinyInt
-//   ressaca                              Int?      @db.TinyInt
-//   hepatite                             Int?      @db.TinyInt
-//   obsFigado                            String?   @db.VarChar(100)
-//   medicacao                            String?   @db.VarChar(500)
-//   alimentacao                          String?   @db.VarChar(500)
-//   emocional                            String?   @db.VarChar(500)
-//   sono                                 String?   @db.VarChar(500)
-//   atividadeFisica                      String?   @db.VarChar(500)
-//   trabalho                             String?   @db.VarChar(500)
-//   testesOrtopedicos                    String?   @db.VarChar(1000)
-//   testesOsteopaticos                   String?   @db.VarChar(1000)
-//   diagnosticoPorImagem                 String?   @db.VarChar(1000)
-//   diagnosticoTecidual                  String?   @db.VarChar(1000)
-//   diagnosticoOsteopatico               String?   @db.VarChar(1000)
-//   constipacao                          Int?      @db.TinyInt
-//   hemorroidas                          Int?      @db.TinyInt
-//   diarreia                             Int?      @db.TinyInt
-//   sensacaoEvacuacao                    Int?      @db.TinyInt
-//   flatulencia                          Int?      @db.TinyInt
-//   qualidadeFezes                       Int?      @db.TinyInt
-//   obsIntestino                         String?   @db.VarChar(100)
-//   estufamentoAbdominal                 Int?      @db.TinyInt
-//   intolerancia                         Int?      @db.TinyInt
-//   colicas                              Int?      @db.TinyInt
-//   calculosBiliares                     Int?      @db.TinyInt
-//   obsVesiculaBiliar                    String?   @db.VarChar(100)
-//   dificuldadeMiccao                    Int?      @db.TinyInt
-//   diminuicaoMiccao                     Int?      @db.TinyInt
-//   obsProstata                          String?   @db.VarChar(100)
-//   dorPreMenstrual                      Int?      @db.TinyInt
-//   dorDuranteMenstruacao                Int?      @db.TinyInt
-//   dorPosMenstrual                      Int?      @db.TinyInt
-//   menstruacaoIrregular                 Int?      @db.TinyInt
-//   dorRelacaoSexual                     Int?      @db.TinyInt
-//   dismenorreia                         Int?      @db.TinyInt
-//   amenorreia                           Int?      @db.TinyInt
-//   obsUtero                             String?   @db.VarChar(100)
-//   arritmia                             Int?      @db.TinyInt
-//   angina                               Int?      @db.TinyInt
-//   insuficienciaCardiaca                Int?      @db.TinyInt
-//   hipertensaoSistemaCardiorespiratorio Int?      @db.TinyInt
-//   sindromeVasoVagal                    Int?      @db.TinyInt
-//   desmaios                             Int?      @db.TinyInt
-//   cansaco                              Int?      @db.TinyInt
-//   dispneia                             Int?      @db.TinyInt
-//   sinusite                             Int?      @db.TinyInt
-//   rinite                               Int?      @db.TinyInt
-//   bronquite                            Int?      @db.TinyInt
-//   asma                                 Int?      @db.TinyInt
-//   pneumonia                            Int?      @db.TinyInt
-//   fumante                              Int?      @db.TinyInt
-//   maCirculacao                         Int?      @db.TinyInt
-//   varizes                              Int?      @db.TinyInt
-//   edemaMMSS                            Int?      @db.TinyInt
-//   edemaMMII                            Int?      @db.TinyInt
-//   obsSistemaCardiorespiratorio         String?   @db.VarChar(100)
-//   peDireito                            String?   @db.VarChar(20)
-//   peDireitoVaro                        Int?      @db.TinyInt
-//   peDireitoValgo                       Int?      @db.TinyInt
-//   peDireitoPlano                       Int?      @db.TinyInt
-//   peDireitoCavo                        Int?      @db.TinyInt
-//   peEsquerdo                           String?   @db.VarChar(20)
-//   peEsquerdoVaro                       Int?      @db.TinyInt
-//   peEsquerdoValgo                      Int?      @db.TinyInt
-//   peEsquerdoPlano                      Int?      @db.TinyInt
-//   peEsquerdoCavo                       Int?      @db.TinyInt
-//   TesteInibicaoPodal                   Int?      @db.TinyInt
-//   txtTesteInibicaoPodal                String?   @db.VarChar(50)
-//   classe1                              Int?      @db.TinyInt
-//   classe2                              Int?      @db.TinyInt
-//   aberta                               Int?      @db.TinyInt
-//   profunda                             Int?      @db.TinyInt
-//   classe3                              Int?      @db.TinyInt
-//   mordidaCruzadaD                      Int?      @db.TinyInt
-//   mordidaCruzadaE                      Int?      @db.TinyInt
-//   mordidaCruzadaB                      Int?      @db.TinyInt
-//   ausenciaDeDentes                     String?   @db.VarChar(50)
-//   TesteInibicaoATM                     Int?      @db.TinyInt
-//   txtTesteInibicaoATM                  String?   @db.VarChar(50)
-//   estrabismoConvergenteD               Int?      @db.TinyInt
-//   estrabismoConvergenteE               Int?      @db.TinyInt
-//   estrabismoDivergenteD                Int?      @db.TinyInt
-//   estrabismoDivergenteE                Int?      @db.TinyInt
-//   hipoconvergenciaD                    Int?      @db.TinyInt
-//   hipoconvergenciaE                    Int?      @db.TinyInt
-//   hipoconvergenciaBilateral            Int?      @db.TinyInt
-//   testeInibicaoOlhos                   Int?      @db.TinyInt
-//   txtTesteInibicaoOlhos                String?   @db.VarChar(50)
-//   cicatriz                             Int?      @db.TinyInt
-//   localCicatriz                        String?   @db.VarChar(500)
-//   testeInibicaoCicatriz                Int?      @db.TinyInt
-//   txtTesteInibicaoCicatriz             String?   @db.VarChar(50)
-//   lift                                 Int?      @db.TinyInt
-//   txtLift                              String?   @db.VarChar(50)
-//   localViscera                         String?   @db.VarChar(500)
-//   testeInibicaoLift                    Int?      @db.TinyInt
-//   txtTesteInibicaoLift                 String?   @db.VarChar(50)
-//   alunos                               alunos    @relation(fields: [codAluno], references: [CODALUNO], onDelete: Cascade, map: "osteopatia_ibfk_1")
-
-//   @@index([codAluno], map: "_idx")
-// }
+  @@map("osteopatias")
+}

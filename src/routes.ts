@@ -22,6 +22,9 @@ import { ListFotoByPacienteController } from "./controllers/foto/ListFotoByPacie
 import { UpdateFotoController } from "./controllers/foto/UpdateFotoController";
 import { ListFotoByIdController } from "./controllers/foto/ListFotoByIdController";
 import { CreateFotoController } from "./controllers/foto/CreateFotoController";
+import { ListOsteopatiaByPacienteController } from "./controllers/osteopatia/ListOsteopatiaByPacienteController";
+import { UpdateOsteopatiaController } from "./controllers/osteopatia/UpdateOsteopatiaController ";
+import { ListOsteopatiaByIdController } from "./controllers/osteopatia/ListOsteopatiaByIdController";
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
 
@@ -126,6 +129,21 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
 
     fastify.post("/foto", async (request: FastifyRequest, reply: FastifyReply) => {
         return new CreateFotoController().handle(request, reply);
+    })
+
+    //osteopatias
+    //pelo Id do paciente
+    fastify.get("/osteopatia", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new ListOsteopatiaByPacienteController().handle(request, reply);
+    })
+
+    fastify.put("/osteopatia", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new UpdateOsteopatiaController().handle(request, reply);
+    })
+
+    //pelo Id proprio
+    fastify.get("/osteopatia/id", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new ListOsteopatiaByIdController().handle(request, reply);
     })
 
 }
