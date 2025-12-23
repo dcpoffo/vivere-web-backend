@@ -1,4 +1,5 @@
 # vivere-web-backend
+(em implementação)
 
 Backend REST desenvolvido para dar suporte ao projeto **Vivere Web**, um sistema de gerenciamento clínico voltado à **fisioterapia, pilates e osteopatia**.
 
